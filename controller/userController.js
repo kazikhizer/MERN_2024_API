@@ -15,7 +15,7 @@ const hashPassword= await bcrypt.hash(password,10)
 user = await User.create({
     name,
      email,
-     password:hashPassword
+     password:hashPassword 
 })
 
 generateCookie(user,res,201,"user Ragister Succefully")  
@@ -59,7 +59,7 @@ export const userLogout=(req,res)=>{
         success:true,
         message:"logout successfully"
     })
-    }
+    }        
 
 
     export const getMyProfile=(req,res)=>{
@@ -67,4 +67,21 @@ export const userLogout=(req,res)=>{
             hello:"hi",
             user:req.user
         })
+    }
+
+    export const getUserById=async(req,res)=>{
+        const  id =req.params.id;
+
+        const user= await User.findById(id);
+
+        if (!user) return res.status(404).json({
+            success:false,
+            message:"Invalid Id"
+        })
+    
+            res.json({
+                success:true,
+                message:"this is single user",
+                user
+            })
     }
